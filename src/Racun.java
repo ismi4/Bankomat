@@ -1,7 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Racun {
+public class Racun implements Serializable {
 
 	private static ArrayList<Racun> racuni = new ArrayList<>();
 	
@@ -13,7 +19,7 @@ public class Racun {
 		
 	}
 	
-	public Racun(int brojRacuna, String imeVlasnika, double trenutnoStanje) {
+	public Racun(int brojRacuna, String imeVlasnika, double trenutnoStanje) throws IOException {
 	
 			if (checkForCreation(brojRacuna, trenutnoStanje)) {
 					this.brojRacuna = brojRacuna;
@@ -21,6 +27,10 @@ public class Racun {
 					this.trenutnoStanje = trenutnoStanje;
 		
 					racuni.add(this);
+					File file = new File("racuni.txt");
+					FileOutputStream in = new FileOutputStream(file);
+					ObjectOutputStream oin = new ObjectOutputStream(in);
+					oin.writeObject(this);
 					System.out.println("Racun je uspjesno kreiran!");
 			
 			} else
@@ -128,6 +138,10 @@ public class Racun {
 			System.out.println("Transfer nije uspjesno izvrsen!");
 		
 		
+	}
+	
+	public static void addOnLoad(Racun racun) {
+		racuni.add(racun);
 	}
 	
 	

@@ -1,16 +1,44 @@
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class ATM {
 
 	static Scanner input = new Scanner (System.in);
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		
+		if(Files.exists(Paths.get("racuni.txt"))) { 
+			load();
+		}
+
+		
 		
 		glavniIzbornik();
+	
+	}
+	
+	public static void load() throws IOException, ClassNotFoundException {
+		
+		File file = new File ("racuni.txt");
+		FileInputStream in = new FileInputStream(file);
+		ObjectInputStream oin = new ObjectInputStream(in);
+		
+		try {
+		while (true) 
+			Racun.addOnLoad((Racun)oin.readObject());
+		}
+		catch (EOFException ex) {}
 		
 	}
 	
-	public static void glavniIzbornik() {
+	public static void glavniIzbornik() throws IOException {
 		int opcija;
 		
 		System.out.println("---------- GLAVNI IZBORNIK ----------");
@@ -19,11 +47,11 @@ public class ATM {
 		System.out.println("3. ISPIS DETALJA POSTOJECEG RACUNA");
 		System.out.println("--------------------------------------");
 		
-		opcija = input.nextInt();
+		opcija = unosIntegera();
 		
 		while (opcija != 1 && opcija != 2 && opcija != 3) {
 			System.out.println("Unesite ispravan unos opcije!");
-			opcija = input.nextInt();
+			opcija = unosIntegera();
 		}
 		
 		switch (opcija) {
@@ -37,16 +65,16 @@ public class ATM {
 	}
 	
 	
-	public static void kreiranjeRacuna() {
+	public static void kreiranjeRacuna() throws IOException {
 		
 		System.out.println("--------------------------------------");
 		
 		System.out.println("Unesite broj racuna: ");
-		int brojRacuna = input.nextInt();
+		int brojRacuna = unosIntegera();
 		
 		
 		System.out.println("Unesite iznos racuna: ");
-		double iznosRacuna = input.nextDouble();
+		double iznosRacuna = unosDouble();
 		
 		System.out.println("Unesite vase ime: ");
 		String ime = input.next();
@@ -59,35 +87,35 @@ public class ATM {
 		
 		}
 	
-	public static void transferNovca () {
+	public static void transferNovca () throws IOException {
 		System.out.println("--------------TRANSFER NOVCA------------");
 		
 		System.out.println("Unesite broj source racuna: ");
 		
-		int sourceRacun = input.nextInt();
+		int sourceRacun = unosIntegera();
 		
 		while (sourceRacun < 0) {
 			System.out.println("Unesite valjan unos broja source racuna.");
-			sourceRacun = input.nextInt();
+			sourceRacun = unosIntegera();
 		}
 		
 		System.out.println("Unesite broj target racuna: ");
 		
-		int targetRacun = input.nextInt();
+		int targetRacun = unosIntegera();
 		
 		while (sourceRacun < 0) {
 			System.out.println("Unesite valjan unos broja target racuna.");
-			targetRacun = input.nextInt();
+			targetRacun = unosIntegera();
 		}
 		
 		
 		System.out.println("Unesite iznos transfera: ");
 		
-		double iznosTransfera = input.nextDouble();
+		double iznosTransfera = unosDouble();
 		
 		while (iznosTransfera <= 0) {
 			System.out.println("Unesite valjan iznos transfera!");
-			iznosTransfera = input.nextDouble();
+			iznosTransfera = unosDouble();
 		}
 		
 		Racun.transferNovca(sourceRacun, targetRacun, iznosTransfera);
@@ -97,16 +125,16 @@ public class ATM {
 		glavniIzbornik();
 	}
 	
-	public static void ispisRacuna () {
+	public static void ispisRacuna () throws IOException {
 		
 		System.out.println("----------ISPIS RACUNA-----------");
 		System.out.println("Unesite broj racuna: ");
 		
-		int number = input.nextInt();
+		int number = unosIntegera();
 		
 		while (number < 0) {
 			System.out.println("Unesite ispravan unos racuna: ");
-			number = input.nextInt();
+			number = unosIntegera();
 		}
 		
 		Racun.ispisRacuna(number);
@@ -116,8 +144,42 @@ public class ATM {
 		glavniIzbornik();
 		
 	}
+	
+	public static int unosIntegera () {
+		
+		int uneseniBroj = 0;
+		
+		while (true)
+		try {
+			uneseniBroj = input.nextInt();
+			break;
+		} catch (Exception e) {
+			System.out.println("Unesite ispravan unos!");
+			input.nextLine();
+			continue;
+		}
+		
+		return uneseniBroj;
+		
+	}
+	
+	public static double unosDouble () {
+		
+		double uneseniBroj = 0;
+		
+		while (true)
+		try {
+			uneseniBroj = input.nextDouble();
+			break;
+		} catch (Exception e) {
+			System.out.println("Unesite ispravan unos!");
+			input.nextLine();
+			continue;
+		}
+		
+		return uneseniBroj;
+		
+	}
 				
 		
 	}
-
-
