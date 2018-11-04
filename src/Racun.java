@@ -27,8 +27,8 @@ public class Racun implements Serializable {
 					this.trenutnoStanje = trenutnoStanje;
 		
 					racuni.add(this);
-					File file = new File("racuni.txt");
-					FileOutputStream in = new FileOutputStream(file);
+					
+					FileOutputStream in = new FileOutputStream("racuni.txt");
 					ObjectOutputStream oin = new ObjectOutputStream(in);
 					oin.writeObject(this);
 					System.out.println("Racun je uspjesno kreiran!");
