@@ -34,7 +34,7 @@ public class ATM  {
 	 * @throws ClassNotFoundException
 	 * <p>Metoda koja priprema FileIO za bankomat</p>
 	 */
-	public static void load() throws IOException, ClassNotFoundException {
+	public static boolean load() throws IOException, ClassNotFoundException {
 
 		if (doesFileExists()) {
 
@@ -48,10 +48,12 @@ public class ATM  {
 			catch (EOFException ex) {}
 
 			oin.close();
+			return true;
 			
 		} else {
 			@SuppressWarnings("unused")
 			File file = new File ("racuni.txt");
+			return true;
 		}
 
 	}
@@ -116,6 +118,8 @@ public class ATM  {
 		new Racun (brojRacuna, ime, iznosRacuna);
 
 		glavniIzbornik();
+		
+		
 
 	}
 
@@ -160,6 +164,7 @@ public class ATM  {
 		System.out.println("--------------------------------------");
 
 		glavniIzbornik();
+		
 	}
 
 	
@@ -185,6 +190,7 @@ public class ATM  {
 		System.out.println("--------------------------------------");
 
 		glavniIzbornik();
+		
 
 	}
 
@@ -194,7 +200,7 @@ public class ATM  {
 	 * @throws IOException
 	 * <p>Metoda koja pohranjuje sve objekte u file</p>
 	 */
-	public static void save() throws IOException {
+	public static boolean save() throws IOException {
 
 
 		FileOutputStream in = new FileOutputStream("racuni.txt");
@@ -204,6 +210,8 @@ public class ATM  {
 			oin.writeObject(Racun.getRacun(i));
 		
 		oin.close();
+		
+		return true;
 
 
 	}

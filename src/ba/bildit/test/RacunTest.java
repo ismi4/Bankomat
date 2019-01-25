@@ -121,7 +121,8 @@ public class RacunTest {
 	public void transferNovca_uspjesnoIzvrsenTransfer_vracaTrue() {
 		assertTrue(Racun.transferNovca(2, 3, 10));
 	}
-
+	
+	
 
 
 }

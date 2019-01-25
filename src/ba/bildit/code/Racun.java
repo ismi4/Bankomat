@@ -216,9 +216,7 @@ public class Racun implements Serializable {
 	 * @return int
 	 * <p>Getter za trenutnoStanje</p>
 	 */
-	public int getTrenutnoStanje() {
-		return this.brojRacuna;
-	}
+	
 
 	/**
 	 * 
